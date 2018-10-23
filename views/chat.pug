@@ -4,6 +4,8 @@ append stylesheets
   link(rel="stylesheet", href="/stylesheets/chat.css")
 block content
   div(ng-controller="chatController")
-    |chat
+    img(src=user.profilePhotoUrl, alt="", srcset="")
+    br
+    h3 #{user.name} #{user.surname}
 append javascripts
   script(src="/javascripts/controller/chatController.js")

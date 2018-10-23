@@ -8,8 +8,11 @@ const logger = require('morgan');
 const dotenv = require('dotenv');
 dotenv.config();
 
-//Database
+//Helpers
 const db = require('./helpers/db')();
+
+//Middleware
+const isAuthenticated = require('./middleware/isAuthenticated');
 
 //Routes
 const indexRouter = require('./routes/index');
@@ -25,7 +28,7 @@ const sessionOptions = {
   secret: process.env.SESSION_SECRET_KEY,
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: true }
+  cookie: { maxAge: 14 * 24 * 3600000 }
 }
 
 app.use(session(sessionOptions));
@@ -48,10 +51,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 
-
+//Routes
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
-app.use('/chat', chatRouter);
+app.use('/chat', isAuthenticated, chatRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
