@@ -1,3 +1,3 @@
-app.controller('indexController', ['$scope', ($scope) => {
-    console.log('indexController');
+app.controller('chatController', ['$scope', ($scope) => {
+    console.log('chatController');
 }]);
