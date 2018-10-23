@@ -1,0 +1,17 @@
+{
+  "name": "ultimatechat",
+  "description": "",
+  "main": "",
+  "authors": [
+    "oguzhanaydemir <ouzhanaydemir7@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/oguzhanaydemir/UltimateChat",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
