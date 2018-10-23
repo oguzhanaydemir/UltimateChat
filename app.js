@@ -10,6 +10,7 @@ dotenv.config();
 
 //Helpers
 const db = require('./helpers/db')();
+const redisStore = require('./helpers/redisStore');
 
 //Middleware
 const isAuthenticated = require('./middleware/isAuthenticated');
@@ -25,6 +26,7 @@ const app = express();
 const session = require('express-session');
 
 const sessionOptions = {
+  store:redisStore,
   secret: process.env.SESSION_SECRET_KEY,
   resave: false,
   saveUninitialized: true,
