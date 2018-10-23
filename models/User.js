@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var findOrCreate = require('mongoose-find-or-create');
 var { Schema } = mongoose;
 
 const UserSchema = new Schema({
@@ -18,5 +19,7 @@ const UserSchema = new Schema({
     },
     profilePhotoUrl : String
 });
+
+UserSchema.plugin(findOrCreate);
 
 module.exports = mongoose.model('users', UserSchema);
