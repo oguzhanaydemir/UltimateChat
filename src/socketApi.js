@@ -25,6 +25,10 @@ io.on('connection', (socket) => {
     console.log(`| A user logged in with name : ${socket.request.user.name} |`);
     console.log(`|------------------------------------------------------------------|`);
     Users.upsert(socket.id, socket.request.user);
+
+    socket.on('disconnect', () =>{
+        Users.remove(socket.request.user.googleId);
+    });
 });
 
 module.exports = socketApi;

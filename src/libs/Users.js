@@ -17,8 +17,24 @@ Users.prototype.upsert = function (connectionId, meta) {
 			meta,
 			when: Date.now()
 
-		})
+		}),
+		err => {
+			if(err)
+				console.error(err);
+		}
 	);
+}
+
+Users.prototype.remove = function(googleId){
+	this.client.hdel(
+		'online',
+		googleId,
+		err => {
+			if(err)
+				console.error(err);
+		}
+	);
+
 }
 
 module.exports = new Users();
