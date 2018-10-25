@@ -25,9 +25,15 @@ io.on('connection', (socket) => {
     console.log(`| A user logged in with name : ${socket.request.user.name} |`);
     console.log(`|------------------------------------------------------------------|`);
     Users.upsert(socket.id, socket.request.user);
-
+    Users.list( onlineUsers => {
+        console.log(onlineUsers);
+    });
     socket.on('disconnect', () =>{
         Users.remove(socket.request.user.googleId);
+       
+        Users.list( onlineUsers => {
+            console.log(onlineUsers);
+        });
     });
 });
 
