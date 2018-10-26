@@ -25,13 +25,26 @@ io.on('connection', (socket) => {
     console.log(`|------------------------------------------------------------------|`);
     console.log(`| A user logged in with name : ${socket.request.user.name} |`);
     console.log(`|------------------------------------------------------------------|`);
+    
+    
+    
     Users.upsert(socket.id, socket.request.user);
+    
     Users.list(onlineUsers => {
         io.emit('onlineList', onlineUsers);
     });
 
+
+
+    Rooms.list( rooms => {
+        io.emit('roomList', rooms);
+    });
+    
     socket.on('newRoom', roomName => {
         Rooms.upsert(roomName);
+        Rooms.list( rooms => {
+            io.emit('roomList', rooms);
+        });
     });
 
     socket.on('disconnect', () => {

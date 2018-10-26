@@ -1,25 +1,43 @@
-app.controller('chatController', ['$scope', ($scope) => {
-    const socket = io.connect('http://localhost:3000');
+app.controller("chatController", [
+    "$scope",
+    $scope => {
+        /**
+         *  Angular Variables
+         */
 
-    $scope.onlineList = [];
+        $scope.onlineList = [];
+        $scope.roomList = [];
+        $scope.activeTab = 2;
 
-    $scope.activeTab = 2;
-    
-    //Sockets
-    socket.on('onlineList' , onlineUsers => {
-       $scope.onlineList = onlineUsers;
-       $scope.$apply();
-    });
+        /**
+         *  Socket.io events handling
+         */
 
-    //Front End
-    $scope.changeTab = tabValue => {
-        $scope.activeTab = tabValue;
+        const socket = io.connect("http://localhost:3000");
+
+        socket.on("onlineList", onlineUsers => {
+            $scope.onlineList = onlineUsers;
+            $scope.$apply();
+        });
+
+        socket.on("roomList", rooms => {
+            $scope.roomList = rooms;
+            $scope.$apply();
+        });
+
+        /**
+         *  Angular functions
+         */
+
+        $scope.changeTab = tabValue => {
+            $scope.activeTab = tabValue;
+        };
+
+        $scope.newRoom = () => {
+            let randomRoomName = Math.random()
+                .toString(36)
+                .substring(7);
+            socket.emit("newRoom", randomRoomName);
+        };
     }
-
-    $scope.newRoom = () => {
-        let randomRoomName = Math.random().toString(36).substring(7);
-        socket.emit('newRoom', randomRoomName);
-    }
-
-
-}]);
+]);
