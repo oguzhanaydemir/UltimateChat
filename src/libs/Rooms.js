@@ -12,6 +12,7 @@ Rooms.prototype.upsert = function(name) {
     "rooms",
     `@Room-${newId}`,
     JSON.stringify({
+      id:`@Room-${newId}`,
       name,
       when: Date.now()
     }),
