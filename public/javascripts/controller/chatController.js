@@ -4,14 +4,22 @@ app.controller('chatController', ['$scope', ($scope) => {
     $scope.onlineList = [];
 
     $scope.activeTab = 2;
-
-    $scope.changeTab = tabValue => {
-        $scope.activeTab = tabValue;
-    }
-
+    
+    //Sockets
     socket.on('onlineList' , onlineUsers => {
        $scope.onlineList = onlineUsers;
        $scope.$apply();
     });
+
+    //Front End
+    $scope.changeTab = tabValue => {
+        $scope.activeTab = tabValue;
+    }
+
+    $scope.newRoom = () => {
+        let randomRoomName = Math.random().toString(36).substring(7);
+        socket.emit('newRoom', randomRoomName);
+    }
+
 
 }]);
