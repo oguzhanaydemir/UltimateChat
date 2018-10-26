@@ -34,10 +34,12 @@ app.controller("chatController", [
         };
 
         $scope.newRoom = () => {
-            let randomRoomName = Math.random()
+            /* let randomRoomName = Math.random()
                 .toString(36)
-                .substring(7);
-            socket.emit("newRoom", randomRoomName);
+                .substring(7); */
+            let roomName = window.prompt('Please enter a room name...');
+            if(roomName !== '' && roomName !== null)
+                socket.emit("newRoom", roomName);
         };
     }
 ]);
