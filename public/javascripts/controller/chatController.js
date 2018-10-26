@@ -7,7 +7,9 @@ app.controller("chatController", [
 
         $scope.onlineList = [];
         $scope.roomList = [];
-        $scope.activeTab = 2;
+        $scope.activeTab = 1;
+        $scope.chatClicked = false;
+        $scope.chatName = "";
 
         /**
          *  Socket.io events handling
@@ -38,8 +40,13 @@ app.controller("chatController", [
                 .toString(36)
                 .substring(7); */
             let roomName = window.prompt('Please enter a room name...');
-            if(roomName !== '' && roomName !== null)
+            if (roomName !== '' && roomName !== null)
                 socket.emit("newRoom", roomName);
         };
+
+        $scope.switchRoom = (room) => {
+            $scope.chatClicked = true;
+            $scope.chatName = room.roomName;
+        }
     }
 ]);
