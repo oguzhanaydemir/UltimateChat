@@ -11,6 +11,7 @@ app.controller("chatController", [
     $scope.chatClicked = false;
     $scope.chatName = "";
     $scope.roomId = "";
+    $scope.messages = [];
 
     /**
      *  Socket.io events handling
@@ -45,24 +46,16 @@ app.controller("chatController", [
         socket.emit("newRoom", roomName);
     };
 
-    /*     $scope.switchRoom = room => {
-          $scope.chatClicked = true;
-          $scope.chatName = room.name;
-          $scope.roomId = room.id;
-    
-          chatFactory.getMessages(room.id).then( messages => {
-            console.log(messages);
-          });
-    
-        }; */
+   
     $scope.switchRoom = room => {
       $scope.chatName = room.name;
       $scope.roomId = room.id;
       $scope.chatClicked = true;
 
       chatFactory.getMessages(room.id).then(data => {
-        console.log(data);
-      })
+          $scope.messages[room.id] = data;
+          console.log($scope.messages);
+      });
     };
 
     $scope.newMessage = () => {
