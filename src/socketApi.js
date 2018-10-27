@@ -29,12 +29,12 @@ io.on('connection', (socket) => {
 
 
 
+    Users.upsert(socket.id, socket.request.user);
 
     Users.list(onlineUsers => {
         io.emit('onlineList', onlineUsers);
     });
 
-    Users.upsert(socket.id, socket.request.user);
 
     Rooms.list(rooms => {
         io.emit('roomList', rooms);
