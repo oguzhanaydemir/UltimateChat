@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
 
 
     socket.on('disconnect', () => {
-        Users.remove(socket.request.user.googleId);
+        Users.remove(socket.request.user._id);
 
         Users.list(onlineUsers => {
             io.emit('onlineList', onlineUsers);
