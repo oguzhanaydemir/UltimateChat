@@ -1,6 +1,6 @@
 app.controller("chatController", [
-  "$scope",
-  $scope => {
+  "$scope", "chatFactory",
+  ($scope, chatFactory) => {
     /**
      *  Angular Variables
      */
@@ -45,10 +45,24 @@ app.controller("chatController", [
         socket.emit("newRoom", roomName);
     };
 
+    /*     $scope.switchRoom = room => {
+          $scope.chatClicked = true;
+          $scope.chatName = room.name;
+          $scope.roomId = room.id;
+    
+          chatFactory.getMessages(room.id).then( messages => {
+            console.log(messages);
+          });
+    
+        }; */
     $scope.switchRoom = room => {
-      $scope.chatClicked = true;
       $scope.chatName = room.name;
       $scope.roomId = room.id;
+      $scope.chatClicked = true;
+
+      chatFactory.getMessages(room.id).then(data => {
+        console.log(data);
+      })
     };
 
     $scope.newMessage = () => {
