@@ -1,6 +1,6 @@
 const shortId = require('short-id');
 const redisClient = require('../redisClient');
-
+const _ = require('lodash');
 
 function Messages() {
   this.client = redisClient.getClient();
@@ -31,7 +31,7 @@ Messages.prototype.list = function(roomId, callback) {
     for (let message in messages) {
       messageList.push(JSON.parse(messages[message]));
     }
-    return callback(messageList);
+    return callback(_.orderBy(messageList, 'when', 'asc'));
   });
 };
 
