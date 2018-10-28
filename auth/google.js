@@ -14,7 +14,7 @@ passport.use(new GoogleStrategy({
   (accessToken, refreshToken, profile, done) => {
     const data = profile._json;
     User.findOrCreate({ googleId: data.id }, {
-      name: data.name.givenName,
+      username: data.name.givenName,
       surname: data.name.familyName,
       profilePhotoUrl: data.image.url,
     }, (err, user) => {

@@ -45,6 +45,16 @@ app.controller("chatController", [
       $scope.$apply();
     });
 
+    socket.on('receiveMessage', (data) => {
+      //console.log(data);
+        $scope.messages[data.roomId].push({
+          userId:data.userId,
+          username:data.username,
+          surname:data.surname,
+          message:data.message
+        });
+        $scope.$apply();
+    });
     /**
      *  Angular functions
      */
@@ -54,9 +64,6 @@ app.controller("chatController", [
     };
 
     $scope.newRoom = () => {
-      /* let randomRoomName = Math.random()
-                .toString(36)
-                .substring(7); */
       let roomName = window.prompt("Please enter a room name...");
       if (roomName !== "" && roomName !== null)
         socket.emit("newRoom", roomName);
@@ -81,10 +88,19 @@ app.controller("chatController", [
     };
 
     $scope.newMessage = () => {
-      socket.emit("newMessage", {
-        message: $scope.message,
-        roomId: $scope.roomId
-      });
+      if ($scope.message.trim() !== '') {
+        socket.emit("newMessage", {
+          message: $scope.message,
+          roomId: $scope.roomId
+        });
+        $scope.messages[$scope.roomId].push({
+          userId: $scope.user._id,
+          username: $scope.user.name,
+          surname: $scope.user.surname,
+          message: $scope.message
+        });
+      }
+      
       $scope.message = "";
     };
   }
