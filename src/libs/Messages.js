@@ -25,15 +25,19 @@ Messages.prototype.upsert = function ({ userId, username, surname, message, room
 
 };
 
-Messages.prototype.list = function(roomId, callback) {
+Messages.prototype.list = function (roomId, callback) {
   const messageList = [];
-  this.client.hgetall(`messages${roomId}`, function(err, messages) {
-    if (err) return callback([]);
-    for (let message in messages) {
-      messageList.push(JSON.parse(messages[message]));
-    }
-    return callback(_.orderBy(messageList, 'when', 'asc'));
-  });
+  setTimeout(() => {
+    this.client.hgetall(`messages${roomId}`, function (err, messages) {
+      if (err) return callback([]);
+      for (let message in messages) {
+        messageList.push(JSON.parse(messages[message]));
+      }
+      return callback(_.orderBy(messageList, 'when', 'asc'));
+    });
+  }, 2000);
+
+
 };
 
 
