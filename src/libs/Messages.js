@@ -6,12 +6,13 @@ function Messages() {
   this.client = redisClient.getClient();
 }
 
-Messages.prototype.upsert = function ({ username, surname, message, roomId }) {
+Messages.prototype.upsert = function ({ userId, username, surname, message, roomId }) {
 
   this.client.hset(
     `messages${roomId}`,
     shortId.generate(),
     JSON.stringify({
+      userId,
       username,
       surname,
       message,
