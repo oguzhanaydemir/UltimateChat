@@ -1,6 +1,18 @@
 app.controller("chatController", [
-  "$scope", "chatFactory",
-  ($scope, chatFactory) => {
+  "$scope", "userFactory", "chatFactory",
+  ($scope, userFactory, chatFactory) => {
+    /**
+     *  Initialization
+     */
+
+    function init() {
+      userFactory.getUser().then(user => {
+        $scope.user = user;
+      });
+    }
+
+    init();
+
     /**
      *  Angular Variables
      */
@@ -12,6 +24,7 @@ app.controller("chatController", [
     $scope.chatName = "";
     $scope.roomId = "";
     $scope.messages = [];
+    $scope.user = {};
 
     /**
      *  Socket.io events handling
@@ -46,15 +59,15 @@ app.controller("chatController", [
         socket.emit("newRoom", roomName);
     };
 
-   
+
     $scope.switchRoom = room => {
       $scope.chatName = room.name;
       $scope.roomId = room.id;
       $scope.chatClicked = true;
 
       chatFactory.getMessages(room.id).then(data => {
-          $scope.messages[room.id] = data;
-          console.log($scope.messages);
+        $scope.messages[room.id] = data;
+        console.log($scope.messages);
       });
     };
 
