@@ -67,12 +67,17 @@ app.controller("chatController", [
       $scope.roomId = room.id;
 
       $scope.chatClicked = true;
-      $scope.loadingMessages = true;
 
-      chatFactory.getMessages(room.id).then(data => {
-        $scope.messages[room.id] = data;
-        $scope.loadingMessages = false;
-      });
+      if (!$scope.messages[room.id]) {
+        $scope.loadingMessages = true;
+        console.log('servise bağlanılıyor');
+        chatFactory.getMessages(room.id).then(data => {
+          $scope.messages[room.id] = data;
+          $scope.loadingMessages = false;
+        });
+
+      }
+
     };
 
     $scope.newMessage = () => {
